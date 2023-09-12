@@ -1,0 +1,6 @@
+flutter: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDAxNzBkYjkzYzMyMWY1Mjc3ZWRmMiIsImlhdCI6MTY5NDUxNTM0OX0.vgWaCPkj_ao4zWnwsru1TIQerkV10ZbzYDmnmLYdwGQ","_id":"6500170db93c321f5277edf2","name":"handi","email":"handi@gmail.com","password":"$2a$08$i7/O1zHJXDIyt8/2Lj8nI.Qttho3hfhwyu2LYaUXV4W./uV1rbYKK","address":"","type":"user","__v":0}
+[ERROR:flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: Error: Could not find the correct Provider<UserProvider> above this AuthScreen Widget
+This happens because you used a `BuildContext` that does not include the provider
+of your choice. There are a few common scenarios:
+- You added a new provider in your `main.dart` and performed a hot-reload.
+  To fix, perform a hot-restart.

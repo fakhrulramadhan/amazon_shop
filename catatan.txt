@@ -1,0 +1,33 @@
+file node js nya ada di folder server
+
+ke folder server dulu
+
+node js:
+1. ke cmd ketik npm init
+package.json = pubspec.yaml
+npmjs.com = pub.dev
+
+ngaturnya di pubspec.yaml
+
+jalaninnya pakai node nama_file.js
+atau nodemon index
+
+jalanin pakai nodemon tipe_environment
+nodemon dev : "./nama_file yang dijalanin"
+
+atau npm run dev (jalanin server)
+
+install dependecies pakai npm
+
+pakai perintah: npm install nama_package / npm i nama_package
+
+cek isi data database di mongodeb, 
+ke menu database -> klik cluster0 -> klik collections
+
+package jsonwebtoken utk autentikasi data
+
+==== Flutter ==============
+
+pakai state management provider
+shared_preferences (penyimpanan data semntara di lokal)
+
