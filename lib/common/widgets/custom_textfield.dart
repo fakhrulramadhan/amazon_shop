@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
+  final int? maxLines; // ! (harus ada), ? (enggak wajib ada)
   const CustomTextField({
     Key? key,
     required this.controller,
     required this.hintText,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
@@ -14,6 +16,7 @@ class CustomTextField extends StatelessWidget {
     //padding: const EdgeInsets.only(top: 10),
     return TextFormField(
       controller: controller,
+      maxLines: maxLines,
       decoration: InputDecoration(
           border: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black45)),

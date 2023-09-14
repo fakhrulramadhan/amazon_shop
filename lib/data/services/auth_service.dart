@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:amazon_shop/common/widgets/bottom_bar.dart';
 import 'package:amazon_shop/constants/error_handling.dart';
 import 'package:amazon_shop/constants/global_variables.dart';
 import 'package:amazon_shop/constants/utils.dart';
 import 'package:amazon_shop/data/model/user_model.dart';
-import 'package:amazon_shop/features/home/screens/home_screen.dart';
 import 'package:amazon_shop/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -84,9 +84,48 @@ class AuthService {
 
           //akan ke halaman homsecreen dan tidak bisa di back (keremove)
           Navigator.pushNamedAndRemoveUntil(
-              context, HomeScreen.routeName, (route) => false);
+              context, BottomBar.routeName, (route) => false);
         },
       );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  //get user data
+  void getUserData({required BuildContext context}) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+
+      //jika token enggak ada maka valu tokennya dikosongin ''
+      if (token == null) {
+        prefs.setString('x-auth-token', '');
+      }
+
+      //buat dapatin token dari backend
+      var tokenRes = await http.post(
+          Uri.parse("${GlobalVariables.baseUrl}/tokenIsValid"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token!
+          });
+
+      var response = jsonDecode(tokenRes.body);
+
+      //jika response = true, maka dapat data user
+      if (response == true) {
+        http.Response userRes = await http.get(
+            Uri.parse('${GlobalVariables.baseUrl}/'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'x-auth-token': token
+            });
+
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+
+        userProvider.setUser(userRes.body);
+      }
     } catch (e) {
       showSnackBar(context, e.toString());
     }

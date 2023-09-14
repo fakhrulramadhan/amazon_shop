@@ -1,10 +1,12 @@
 import 'package:amazon_shop/data/services/auth_service.dart';
+import 'package:amazon_shop/features/admin/screens/admin_screen.dart';
 import 'package:amazon_shop/features/auth/screens/auth_screen.dart';
 import 'package:amazon_shop/providers/user_provider.dart';
 import 'package:amazon_shop/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './constants/global_variables.dart';
+import 'common/widgets/bottom_bar.dart';
 
 void main() {
   //error doesnot include provider, solusinya bungkus myapp
@@ -36,7 +38,11 @@ class MyApp extends StatelessWidget {
               iconTheme: IconThemeData(
                 color: Colors.black,
               ))),
-      home: const AuthScreen(),
+      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+          ? Provider.of<UserProvider>(context).user.type == "user"
+              ? const BottomBar()
+              : const AdminScreen()
+          : const AuthScreen(),
       onGenerateRoute: (settings) => generateRoute(settings),
     );
   }
@@ -54,6 +60,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    //dpaatin data user ketika pertama kali diload
+    authService.getUserData(context: context);
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:amazon_shop/data/model/user_model.dart';
 import 'package:flutter/material.dart';
 
 //changenotifier larema doma,os
+//changenotifier berfungsi utk menampung data model dinamis
 class UserProvider extends ChangeNotifier {
   User _user = User(
       id: '',
