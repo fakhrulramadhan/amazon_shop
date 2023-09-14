@@ -39,6 +39,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
     'fashion'
   ];
 
+  void selectImages() async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

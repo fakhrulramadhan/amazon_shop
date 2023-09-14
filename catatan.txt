@@ -31,3 +31,13 @@ package jsonwebtoken utk autentikasi data
 pakai state management provider
 shared_preferences (penyimpanan data semntara di lokal)
 
+
+===== Configurasi Ke Ios pada library file picker ========
+
+buka website ini: https://github.com/miguelpruivo/flutter_file_picker/wiki/Setup#ios
+
+copy code ini ke ios/Runner/info.plist
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Explain why your app uses photo library</string>
+
+
