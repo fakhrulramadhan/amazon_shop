@@ -16,23 +16,34 @@ void showSnackBar(BuildContext context, String text) {
 
 Future<List<File>> pickImages() async {
   List<File> images = [];
-
   try {
-    //file yang diambilnya hanyalah tipe gambar, dan izin utk ambil
-    //lebih dari 1
-    var files = await FilePicker.platform
-        .pickFiles(allowMultiple: true, type: FileType.image);
-
-    //kalau filenya beneran ada
+    var files = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      allowMultiple: true,
+    );
     if (files != null && files.files.isNotEmpty) {
-      for (var i = 0; i < files.files.length; i++) {
-        //untuk tampung data semua gambarnya
+      for (int i = 0; i < files.files.length; i++) {
         images.add(File(files.files[i].path!));
       }
     }
   } catch (e) {
     debugPrint(e.toString());
   }
+  return images;
+}
 
-  return images; //tampilkan / lempar gambarnya
+Future<List<File>> pickPhotos() async {
+  List<File> photos = [];
+  FilePickerResult? result =
+      await FilePicker.platform.pickFiles(allowMultiple: true);
+
+  if (result != null) {
+    List<File> files = result.paths.map((path) => File(path!)).toList();
+
+    photos = files;
+  } else {
+    // User canceled the picker
+  }
+
+  return photos;
 }

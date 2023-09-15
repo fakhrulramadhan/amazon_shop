@@ -1,6 +1,5 @@
 import 'package:amazon_shop/common/widgets/loader.dart';
 import 'package:amazon_shop/data/model/product.dart';
-import 'package:amazon_shop/features/account/widgets/single_product.dart';
 import 'package:amazon_shop/features/admin/screens/add_product_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../data/services/admin_service.dart';
@@ -39,7 +38,6 @@ class _PostsScreenState extends State<PostsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(products);
     return products == null
         ? const Loader()
         : Scaffold(
@@ -47,45 +45,8 @@ class _PostsScreenState extends State<PostsScreen> {
             //   title: const Text("Dashboard"),
             //   actions: const [],
             // ),
-            body: GridView.builder(
-              itemCount: products!.length,
-              //setiap baris ada 2 produk
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2),
-              itemBuilder: (context, index) {
-                //sudah dipecah menjadi data per produk
-                final productData = products![index];
-                return Column(
-                  children: [
-                    SizedBox(
-                      height: 140,
-                      //images[0] artinya tampilkan gambar yang pertamanya aja
-                      child: SingleProduct(image: productData.images[0]),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            productData.name,
-                            style: const TextStyle(
-                                fontSize: 15.0, fontWeight: FontWeight.w400),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.delete_forever,
-                            size: 24.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              },
+            body: const Center(
+              child: Text("Products"),
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {

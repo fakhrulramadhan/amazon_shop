@@ -26,6 +26,9 @@ ke menu database -> klik cluster0 -> klik collections
 
 package jsonwebtoken utk autentikasi data
 
+flutter startup lock ngadat:
+https://stackoverflow.com/questions/51679269/waiting-for-another-flutter-command-to-release-the-startup-lock
+
 ==== Flutter ==============
 
 pakai state management provider
@@ -39,5 +42,10 @@ buka website ini: https://github.com/miguelpruivo/flutter_file_picker/wiki/Setup
 copy code ini ke ios/Runner/info.plist
 <key>NSPhotoLibraryUsageDescription</key>
 <string>Explain why your app uses photo library</string>
+
+=========== Save Images ke API =====
+Simpan pakai api ke https://cloudinary.com/
+
+bikin route crud API backendnnya di server/routes
 
 
