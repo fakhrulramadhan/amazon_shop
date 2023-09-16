@@ -1,4 +1,5 @@
 import 'package:amazon_shop/common/widgets/loader.dart';
+import 'package:amazon_shop/constants/utils.dart';
 import 'package:amazon_shop/data/model/product.dart';
 import 'package:amazon_shop/features/account/widgets/single_product.dart';
 import 'package:amazon_shop/features/admin/screens/add_product_screen.dart';
@@ -37,6 +38,18 @@ class _PostsScreenState extends State<PostsScreen> {
     setState(() {}); //update UI
   }
 
+  void deleteProduct(Product product, int index) {
+    adminService.deleteProduct(
+      context: context,
+      product: product,
+      onSuccess: () {
+        products!.removeAt(index); //hapus produk sesuai id indexnya
+        setState(() {}); //update UI
+        showSnackBar(context, "Product Successfully deleted");
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     print(products);
@@ -58,7 +71,7 @@ class _PostsScreenState extends State<PostsScreen> {
                 return Column(
                   children: [
                     SizedBox(
-                      height: 140,
+                      height: 120,
                       //images[0] artinya tampilkan gambar yang pertamanya aja
                       child: SingleProduct(image: productData.images[0]),
                     ),
@@ -75,7 +88,9 @@ class _PostsScreenState extends State<PostsScreen> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            deleteProduct(productData, index);
+                          },
                           icon: const Icon(
                             Icons.delete_forever,
                             size: 24.0,

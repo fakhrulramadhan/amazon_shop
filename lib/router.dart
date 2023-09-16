@@ -1,6 +1,7 @@
 import 'package:amazon_shop/common/widgets/bottom_bar.dart';
 import 'package:amazon_shop/features/admin/screens/add_product_screen.dart';
 import 'package:amazon_shop/features/auth/screens/auth_screen.dart';
+import 'package:amazon_shop/features/home/screens/category_deals_screens.dart';
 import 'package:amazon_shop/features/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case AddProductScreen.routeName:
       return MaterialPageRoute(
           builder: (_) => const AddProductScreen(), settings: routeSettings);
+    case CategoryDealsScreen.routeName:
+      //akan bawa argumen dari category yang dipilih pada saat diklik
+      var category = routeSettings.arguments as String;
+      return MaterialPageRoute(
+          builder: (_) => CategoryDealsScreen(
+                category: category,
+              ),
+          settings: routeSettings);
 
     default:
       return MaterialPageRoute(

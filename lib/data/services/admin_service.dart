@@ -105,4 +105,34 @@ class AdminService {
     }
     return productList; //munculkan list product..,,
   }
+
+  void deleteProduct(
+      {required BuildContext context,
+      required Product product,
+      required VoidCallback onSuccess}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false).user;
+    try {
+      //nama preset, nama upload ke cloudinary.com
+
+      http.Response res = await http.post(
+          Uri.parse("${GlobalVariables.baseUrl}/admin/delete-product"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': userProvider.token, //ambil token yang login
+          },
+          body: jsonEncode({
+            'id': product.id //bawa id sebagai parameter utk dihapusnya
+          }));
+
+      httpErrorHandler(
+        response: res,
+        context: context,
+        onSuccess: () {
+          onSuccess();
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
 }
