@@ -1,30 +1,45 @@
+import 'package:amazon_shop/common/widgets/loader.dart';
 import 'package:amazon_shop/constants/global_variables.dart';
+import 'package:amazon_shop/data/model/product.dart';
+import 'package:amazon_shop/data/services/search_service.dart';
 import 'package:amazon_shop/features/home/screens/widgets/address_box.dart';
-import 'package:amazon_shop/features/home/screens/widgets/carousel_image.dart';
-import 'package:amazon_shop/features/home/screens/widgets/deal_of_day.dart';
-import 'package:amazon_shop/features/home/screens/widgets/top_categories.dart';
-import 'package:amazon_shop/features/search/screens/search_screen.dart';
+import 'package:amazon_shop/features/search/widget/searched_product.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  static const String routeName = "/home";
-  const HomeScreen({super.key});
+class SearchScreen extends StatefulWidget {
+  static const String routeName = "/search";
+  final String searchQuery; //dijadiin arguments
+  const SearchScreen({
+    Key? key,
+    required this.searchQuery,
+  }) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  //argument didapat dari hasil input di form search
+class _SearchScreenState extends State<SearchScreen> {
+  List<Product>? products; // ? belum tentu ada, produk lebih dari 1
+  SearchService searchService = SearchService();
+  @override
+  void initState() {
+    super.initState();
+    getSearchedProduct();
+  }
+
+  void getSearchedProduct() async {
+    products = await searchService.getSearchProduct(
+        context: context, searchQuery: widget.searchQuery);
+
+    setState(() {}); //update UI
+  }
+
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
   @override
   Widget build(BuildContext context) {
-    //cek data usernya yang login sudah ada atau belum
-    //menangkap data user yang login
-
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60), //tingginya 52
@@ -98,24 +113,24 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        body: const SingleChildScrollView(
-          child: Column(
-            children: [
-              AddressBox(),
-              SizedBox(
-                height: 10.0,
-              ),
-              TopCategories(),
-              SizedBox(
-                height: 10.0,
-              ),
-              CarouselImage(),
-              SizedBox(
-                height: 10.0,
-              ),
-              DealOfDay(),
-            ],
-          ),
-        ));
+        body: products == null
+            ? const Loader()
+            : Column(
+                children: [
+                  const AddressBox(),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: products!.length,
+                      physics: const ScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return SearchedProduct(product: products![index]);
+                      },
+                    ),
+                  )
+                ],
+              ));
   }
 }

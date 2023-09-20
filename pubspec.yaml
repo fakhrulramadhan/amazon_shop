@@ -44,6 +44,7 @@ dependencies:
   file_picker: ^5.5.0
   cloudinary_public: ^0.21.0
   image_picker: ^1.0.4
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:

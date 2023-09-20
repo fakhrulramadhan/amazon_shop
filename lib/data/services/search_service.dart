@@ -9,32 +9,35 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
-class HomeService {
-  Future<List<Product>> getCategoryProducts(
-      {required BuildContext context, required String category}) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    List<Product> productList = [];
+class SearchService {
+  Future<List<Product>> getSearchProduct(
+      {required BuildContext context, required String searchQuery}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false).user;
+
+    //tipenya harus sama dengan tipe fungsinya (future...)
+    List<Product> productList = []; //utk menampung data product
     try {
       http.Response res = await http.get(
           Uri.parse(
-              '${GlobalVariables.baseUrl}/api/products?category=$category'),
-          headers: {
+              "${GlobalVariables.baseUrl}/api/products/search/$searchQuery"),
+          headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': userProvider.user.token,
+            'x-auth-token': userProvider.token //butuh token
           });
 
+      //on successnya meoad data produk ke admin
       httpErrorHandler(
         response: res,
         context: context,
         onSuccess: () {
-          for (int i = 0; i < jsonDecode(res.body).length; i++) {
-            productList.add(
-              Product.fromJson(
-                jsonEncode(
-                  jsonDecode(res.body)[i],
-                ),
-              ),
-            );
+          for (var i = 0; i < jsonDecode(res.body).length; i++) {
+            // isi data productlist dengan json model Produk
+            //harus di encode dulu, karena tipenya harus string
+            //kalau decode, tipenya dinamis
+            //[i] nya ditaruh diluar  kurung body
+            productList.add(Product.fromJson(jsonEncode(
+              jsonDecode(res.body)[i],
+            )));
           }
         },
       );
@@ -45,20 +48,21 @@ class HomeService {
     return productList;
   }
 
-  Future<List<Product>> fetchCategoryProducts({
+  Future<List<Product>> fetchSearchedProduct({
     required BuildContext context,
-    required String category,
+    required String searchQuery,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Product> productList = [];
     try {
       http.Response res = await http.get(
-          Uri.parse(
-              '${GlobalVariables.baseUrl}/api/products?category=$category'),
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': userProvider.user.token,
-          });
+        Uri.parse(
+            '${GlobalVariables.baseUrl}/api/products/search/$searchQuery'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
 
       httpErrorHandler(
         response: res,

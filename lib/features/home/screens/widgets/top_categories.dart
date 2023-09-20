@@ -23,8 +23,11 @@ class TopCategories extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             //title category nya wajib ada
-            onTap: () => navigateToCategoryPage(
-                context, GlobalVariables.categoryImages[index]['title']!),
+            onTap: () {
+              print(GlobalVariables.categoryImages[index]['title']!);
+              navigateToCategoryPage(
+                  context, GlobalVariables.categoryImages[index]['title']!);
+            },
             child: Column(
               children: [
                 Padding(
