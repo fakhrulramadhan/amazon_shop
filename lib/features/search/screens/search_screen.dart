@@ -3,6 +3,7 @@ import 'package:amazon_shop/constants/global_variables.dart';
 import 'package:amazon_shop/data/model/product.dart';
 import 'package:amazon_shop/data/services/search_service.dart';
 import 'package:amazon_shop/features/home/screens/widgets/address_box.dart';
+import 'package:amazon_shop/features/product_details/screens/product_details_screen.dart';
 import 'package:amazon_shop/features/search/widget/searched_product.dart';
 import 'package:flutter/material.dart';
 
@@ -126,7 +127,13 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemCount: products!.length,
                       physics: const ScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        return SearchedProduct(product: products![index]);
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, ProductDetailsScreen.routeName,
+                                  arguments: products![index]);
+                            },
+                            child: SearchedProduct(product: products![index]));
                       },
                     ),
                   )

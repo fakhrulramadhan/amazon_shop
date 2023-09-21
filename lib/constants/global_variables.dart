@@ -6,7 +6,7 @@ class GlobalVariables {
   //static String baseUrl = "http://localhost:3000";
 
   //cmd ipconfig -> copas ipv4 address
-  static String baseUrl = "http://192.168.35.1:3000";
+  static String baseUrl = "http://192.168.59.1:3000";
 
   static const appBarGradient = LinearGradient(
     colors: [
@@ -17,6 +17,7 @@ class GlobalVariables {
   );
 
   static const secondaryColor = Color.fromRGBO(255, 153, 0, 1);
+  static const priceColor = Color.fromRGBO(255, 50, 0, 1);
   static const backgroundColor = Colors.white;
   static const Color greyBackgroundCOlor = Color(0xffebecee);
   static var selectedNavBarColor = Colors.cyan[800]!;

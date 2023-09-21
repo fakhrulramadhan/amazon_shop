@@ -21,7 +21,7 @@ class SearchedProduct extends StatelessWidget {
                 product!.images[0],
                 width: 130.0,
                 height: 130.0,
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.fitWidth,
               ),
               //ecpanded utk ngerapihin layout
               Expanded(

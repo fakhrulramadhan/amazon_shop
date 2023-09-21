@@ -27,6 +27,8 @@ class _CustomButtonState extends State<CustomButton> {
       onPressed: widget.onTap,
       child: Text(
         widget.text, //cara manggil variabel di stateful
+        style: TextStyle(
+            color: widget.color == null ? Colors.white : Colors.black),
       ),
     );
   }

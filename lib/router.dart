@@ -1,8 +1,10 @@
 import 'package:amazon_shop/common/widgets/bottom_bar.dart';
+import 'package:amazon_shop/data/model/product.dart';
 import 'package:amazon_shop/features/admin/screens/add_product_screen.dart';
 import 'package:amazon_shop/features/auth/screens/auth_screen.dart';
 import 'package:amazon_shop/features/home/screens/category_deals_screens.dart';
 import 'package:amazon_shop/features/home/screens/home_screen.dart';
+import 'package:amazon_shop/features/product_details/screens/product_details_screen.dart';
 import 'package:amazon_shop/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +41,15 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
           builder: (_) => SearchScreen(
                 searchQuery: searchQuery,
+              ),
+          settings: routeSettings);
+    case ProductDetailsScreen.routeName:
+      //setting argument produknya disini
+      var product = routeSettings.arguments as Product;
+      //karena searchquery dijadikan arguments, maka hapus constnya
+      return MaterialPageRoute(
+          builder: (_) => ProductDetailsScreen(
+                product: product,
               ),
           settings: routeSettings);
 
