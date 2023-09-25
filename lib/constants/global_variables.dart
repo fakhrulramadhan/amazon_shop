@@ -6,7 +6,7 @@ class GlobalVariables {
   //static String baseUrl = "http://localhost:3000";
 
   //cmd ipconfig -> copas ipv4 address
-  static String baseUrl = "http://192.168.59.1:3000";
+  static String baseUrl = "http://192.168.9.1:3000";
 
   static const appBarGradient = LinearGradient(
     colors: [

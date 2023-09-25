@@ -1,6 +1,9 @@
 import 'package:amazon_shop/constants/global_variables.dart';
+import 'package:amazon_shop/features/cart/screens/cart_screen.dart';
 import 'package:amazon_shop/features/home/screens/home_screen.dart';
+import 'package:amazon_shop/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../features/account/screens/account_screen.dart';
 import 'package:badges/badges.dart' as badge;
 
@@ -27,13 +30,15 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const HomeScreen(), //page 0
     const AccountScreen(),
-    const Center(
-      child: Text("Cart Page"),
-    )
+    const CartScreen()
   ];
 
   @override
   Widget build(BuildContext context) {
+    // menghitung jumlah produk di dalam keranjang
+    //memantau nilai pakai watch
+    final userCartLen = context.watch<UserProvider>().user.cart.length;
+
     return Scaffold(
       body: pages[_page], //ke pages[index page ke berapa]
       bottomNavigationBar: BottomNavigationBar(
@@ -85,16 +90,16 @@ class _BottomBarState extends State<BottomBar> {
                                     ? GlobalVariables.selectedNavBarColor
                                     : GlobalVariables.backgroundColor,
                                 width: bottomBarBorderWidth))),
-                    child: const badge.Badge(
+                    child: badge.Badge(
                       badgeContent: Text(
-                        "3",
-                        style: TextStyle(
+                        userCartLen.toString(),
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                      badgeStyle: badge.BadgeStyle(
+                      badgeStyle: const badge.BadgeStyle(
                           elevation: 0, badgeColor: Colors.cyan),
-                      child: Icon(
+                      child: const Icon(
                         Icons.shopping_cart_checkout_outlined,
                         size: 24.0,
                       ),

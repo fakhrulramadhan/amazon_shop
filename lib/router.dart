@@ -1,5 +1,6 @@
 import 'package:amazon_shop/common/widgets/bottom_bar.dart';
 import 'package:amazon_shop/data/model/product.dart';
+import 'package:amazon_shop/features/address/screens/address_screen.dart';
 import 'package:amazon_shop/features/admin/screens/add_product_screen.dart';
 import 'package:amazon_shop/features/auth/screens/auth_screen.dart';
 import 'package:amazon_shop/features/home/screens/category_deals_screens.dart';
@@ -52,6 +53,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
                 product: product,
               ),
           settings: routeSettings);
+    case AddressScreen.routeName:
+      //setting argument produknya disini
+      //karena searchquery dijadikan arguments, maka hapus constnya
+      return MaterialPageRoute(
+          builder: (_) => const AddressScreen(), settings: routeSettings);
 
     default:
       return MaterialPageRoute(

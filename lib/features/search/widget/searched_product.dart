@@ -11,6 +11,19 @@ class SearchedProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double totalRating = 0;
+    double avgRating = 0;
+
+    // rating berdasarkan length (banyaknya)
+    for (int i = 0; i < product!.rating!.length; i++) {
+      totalRating = product!.rating![i].rating;
+    }
+
+    //jika ttal rating tidak sama 0
+    if (totalRating != 0) {
+      //total rating dibagi banyaknya orang yang sudah rating
+      avgRating = totalRating / product!.rating!.length;
+    }
     return Column(
       children: [
         Container(
@@ -21,7 +34,7 @@ class SearchedProduct extends StatelessWidget {
                 product!.images[0],
                 width: 130.0,
                 height: 130.0,
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.contain,
               ),
               //ecpanded utk ngerapihin layout
               Expanded(

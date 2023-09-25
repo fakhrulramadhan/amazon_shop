@@ -4,7 +4,7 @@ import 'package:amazon_shop/common/widgets/bottom_bar.dart';
 import 'package:amazon_shop/constants/error_handling.dart';
 import 'package:amazon_shop/constants/global_variables.dart';
 import 'package:amazon_shop/constants/utils.dart';
-import 'package:amazon_shop/data/model/user_model.dart';
+import 'package:amazon_shop/data/model/user.dart';
 import 'package:amazon_shop/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -21,13 +21,15 @@ class AuthService {
     try {
       //butuh user utk tambah data
       User user = User(
-          id: '',
-          name: name,
-          email: email,
-          password: password,
-          address: '',
-          type: '',
-          token: '');
+        id: '',
+        name: name,
+        email: email,
+        password: password,
+        address: '',
+        type: '',
+        token: '',
+        cart: [], //cart kasih list kosong aja
+      );
 
       http.Response res =
           await http.post(Uri.parse("${GlobalVariables.baseUrl}/api/signup"),

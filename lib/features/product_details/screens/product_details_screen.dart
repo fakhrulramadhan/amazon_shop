@@ -1,4 +1,7 @@
 import 'package:amazon_shop/common/widgets/custom_button.dart';
+import 'package:amazon_shop/common/widgets/stars.dart';
+import 'package:amazon_shop/data/services/product_details_service.dart';
+import 'package:amazon_shop/providers/user_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +9,7 @@ import 'package:amazon_shop/constants/global_variables.dart';
 import 'package:amazon_shop/data/model/product.dart';
 import 'package:amazon_shop/features/search/screens/search_screen.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   static const String routeName = "/product-details";
@@ -20,8 +24,45 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  //final ProductDetailsScreen productDetailsScreen = ProductDetailsScreen(product: product)
+
+  final ProductDetailsService productDetailsService = ProductDetailsService();
+  double avgRating = 0; //rating rata ratanya
+  double myRating = 0; //rating dari per masing2 user
+
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
+
+  //fungsi utk tambah produk ke keranjang
+  void addToCart() {
+    productDetailsService.addToCart(context: context, product: widget.product);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    double totalRating = 0;
+
+    // rating berdasarkan length (banyaknya)
+    for (int i = 0; i < widget.product.rating!.length; i++) {
+      totalRating = widget.product.rating![i].rating;
+
+      // buat perbandingan rating userid yang ada di produk
+      //dengan user id dari data yang login
+      if (widget.product.rating![i].userId ==
+          Provider.of<UserProvider>(context, listen: false).user.id) {
+        //jika sesuai datanya, maka akan simpan ratingnya
+        //ke variabel myrating
+        myRating = widget.product.rating![i].rating;
+      }
+    }
+
+    //jika ttal rating tidak sama 0
+    if (totalRating != 0) {
+      //total rating dibagi banyaknya orang yang sudah rating
+      avgRating = totalRating / widget.product.rating!.length;
+    }
   }
 
   @override
@@ -115,6 +156,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       fontSize: 14.0,
                     ),
                   ),
+                  // rata rata rating taruh diatas
+                  Stars(rating: avgRating)
                 ],
               ),
             ),
@@ -190,7 +233,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: CustomButton(
                 text: "Add to Cart",
                 color: Colors.yellow,
-                onTap: () {},
+                onTap: () {
+                  addToCart();
+                },
               ),
             ),
             const SizedBox(
@@ -208,8 +253,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
               ),
             ),
+            // kalau mau rating ulang, harus
             RatingBar.builder(
-              initialRating: 0, //rating awal bintangnya 0
+              initialRating: myRating, //rating awal bintangnya 0
               minRating: 1,
               maxRating: 5,
               direction: Axis.horizontal, //bintangnya ada 5
@@ -223,7 +269,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 color: GlobalVariables.secondaryColor,
               ),
               //ketika rating bintangnya di hover
-              onRatingUpdate: (value) {},
+              onRatingUpdate: (rating) {
+                productDetailsService.rateProduct(
+                    context: context, product: widget.product, rating: rating);
+              },
             )
           ],
         ),
